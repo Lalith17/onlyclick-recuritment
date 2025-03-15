@@ -108,4 +108,52 @@ The API implements proper error handling for:
 To run the development server with hot reload:
 ```bash
 npm run dev
-``` 
+```
+
+## Bonus Features
+
+### 1. Rate Limiting
+- Implemented rate limiting using `express-rate-limit`
+- Limits: 100 requests per 15 minutes per IP
+- Helps prevent DoS attacks and abuse
+
+### 2. Load Balancing with Nginx
+This project implements load balancing using Nginx as a reverse proxy, distributing traffic across multiple Node.js instances.
+
+#### Setup Instructions
+
+1. **Install Nginx**
+   - Windows: Download from http://nginx.org/en/download.html
+   - Linux: `sudo apt-get install nginx`
+   - Mac: `brew install nginx`
+
+2. **Configure Nginx**
+   - Copy the `nginx.conf` file to your Nginx configuration directory
+   - Windows: `C:\nginx\conf\nginx.conf`
+   - Linux/Mac: `/etc/nginx/nginx.conf`
+
+3. **Start Multiple Node.js Instances**
+```bash
+npm run start:all
+```
+This will start three instances of the application on ports 5000, 5001, and 5002.
+
+4. **Start Nginx**
+   - Windows: Run `nginx.exe`
+   - Linux/Mac: `sudo service nginx start`
+
+5. **Access the Load Balanced API**
+   - The API is now available at `http://localhost:80`
+   - Requests will be distributed across the three Node.js instances
+   - Each instance handles a portion of the traffic
+
+#### Load Balancing Features
+- Round-robin distribution of requests
+- Automatic failover if an instance goes down
+- Session persistence through sticky sessions
+- Health checks for backend servers
+
+#### Monitoring
+- Check Nginx access logs for request distribution
+- Monitor individual Node.js instances through their console output
+- Use the built-in rate limiting metrics 
